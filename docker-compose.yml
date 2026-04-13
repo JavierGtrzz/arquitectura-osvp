@@ -28,6 +28,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./web-data/index.html:/usr/share/nginx/html/index.html:ro
+    networks: # <-- AGREGAR ESTO PARA CONECTARLO A LA RED INTERNA
+      - red_estudio
 
   ftp_server:
     image: fauria/vsftpd
@@ -46,6 +48,8 @@ services:
   pc1_cliente:
     build: ./ubuntu-client
     container_name: pc1
+    depends_on:
+      - servidor_dhcp
     cap_add:
       - NET_ADMIN
     networks:
@@ -54,6 +58,8 @@ services:
   pc2_cliente:
     build: ./ubuntu-client
     container_name: pc2
+    depends_on:
+      - servidor_dhcp
     cap_add:
       - NET_ADMIN
     networks:
@@ -78,5 +84,5 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 192.168.30.0/24
-          gateway: 192.168.30.1
+        - subnet: 192.168.100.0/24 # <-- CAMBIO DE SUBRED
+          gateway: 192.168.100.1 # <-- CAMBIO DE GATEWAY
