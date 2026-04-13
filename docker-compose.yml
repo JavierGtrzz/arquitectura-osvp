@@ -18,7 +18,7 @@ services:
       - NET_ADMIN
     networks:
       red_estudio:
-        ipv4_address: 192.168.30.2
+        ipv4_address: 192.168.100.2
 
   nginx:
     image: nginx:latest
