@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   dns_server:
@@ -6,8 +6,8 @@ services:
     container_name: dns-server
     restart: always
     ports:
-      - "[TU_NUEVA_IP]:53:53/udp"
-      - "[TU_NUEVA_IP]:53:53/tcp"
+      - "192.168.75.131:53:53/udp"
+      - "192.168.75.131:53:53/tcp"
     volumes:
       - ./dns-server/dnsmasq.conf:/etc/dnsmasq.conf
 
@@ -39,7 +39,7 @@ services:
     environment:
       - FTP_USER=root
       - FTP_PASS=1234
-      - PASV_ADDRESS=[TU_NUEVA_IP]
+      - PASV_ADDRESS=192.168.75.131
       - PASV_MIN_PORT=21100
       - PASV_MAX_PORT=21110
 
