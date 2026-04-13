@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  dns_server:
+    image: jpillora/dnsmasq
+    container_name: dns-server
+    restart: always
+    ports:
+      - "[TU_NUEVA_IP]:53:53/udp"
+      - "[TU_NUEVA_IP]:53:53/tcp"
+    volumes:
+      - ./dns-server/dnsmasq.conf:/etc/dnsmasq.conf
+
+  servidor_dhcp:
+    build: ./dhcp-server
+    container_name: servidor_dhcp
+    cap_add:
+      - NET_ADMIN
+    networks:
+      red_estudio:
+        ipv4_address: 192.168.30.2
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8081:80"
+    restart: unless-stopped
+    volumes:
+      - ./web-data/index.html:/usr/share/nginx/html/index.html:ro
+
+  ftp_server:
+    image: fauria/vsftpd
+    container_name: ftp-server
+    restart: always
+    ports:
+      - "2121:21"
+      - "21100-21110:21100-21110"
+    environment:
+      - FTP_USER=root
+      - FTP_PASS=1234
+      - PASV_ADDRESS=[TU_NUEVA_IP]
+      - PASV_MIN_PORT=21100
+      - PASV_MAX_PORT=21110
+
+  pc1_cliente:
+    build: ./ubuntu-client
+    container_name: pc1
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - red_estudio
+
+  pc2_cliente:
+    build: ./ubuntu-client
+    container_name: pc2
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - red_estudio
+
+  pc01_ssh:
+    image: ubuntu:latest
+    container_name: pc01
+    command: sleep infinity
+    ports:
+      - "2222:22"
+
+  pc02_ssh:
+    image: ubuntu:latest
+    container_name: pc02
+    command: sleep infinity
+    ports:
+      - "2223:22"
+
+networks:
+  red_estudio:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.30.0/24
+          gateway: 192.168.30.1
