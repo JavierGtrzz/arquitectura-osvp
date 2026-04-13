@@ -27,8 +27,8 @@ services:
       - "8081:80"
     restart: unless-stopped
     volumes:
-      - ./web-data/index.html:/usr/share/nginx/html/index.html:ro
-    networks: # <-- AGREGAR ESTO PARA CONECTARLO A LA RED INTERNA
+      - ./web-data:/usr/share/nginx/html:ro # <-- Cambio: Ahora monta la carpeta completa
+    networks:
       - red_estudio
 
   ftp_server:
@@ -44,6 +44,8 @@ services:
       - PASV_ADDRESS=192.168.75.131
       - PASV_MIN_PORT=21100
       - PASV_MAX_PORT=21110
+    volumes:
+      - ./web-data:/home/vsftpd/root # <-- NUEVO: El FTP escribe en la misma carpeta web
 
   pc1_cliente:
     build: ./ubuntu-client
