@@ -40,7 +40,7 @@ services:
     shm_size: "1gb"
     restart: always
     networks:
-      redes_net:
+      - red_estudio # <--- Cambia redes_net por red_estudio
 
   ftp_server:
     image: fauria/vsftpd
