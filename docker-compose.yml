@@ -31,6 +31,17 @@ services:
     networks:
       - red_estudio
 
+  oracle_11g:
+    build:
+      context: ./oracle_11g
+      target: dev
+    ports:
+      - "1521:1521"
+    shm_size: "1gb"
+    restart: always
+    networks:
+      redes_net:
+
   ftp_server:
     image: fauria/vsftpd
     container_name: ftp-server
