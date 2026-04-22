@@ -6,14 +6,23 @@ services:
     ports:
       - "53:53/udp"
       - "53:53/tcp"
+    environment:
+      - TZ=America/Mexico_City
     volumes:
       - ./dns-server/dnsmasq.conf:/etc/dnsmasq.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
 
   servidor_dhcp:
     build: ./dhcp-server
     container_name: servidor_dhcp
     cap_add:
       - NET_ADMIN
+    environment:
+      - TZ=America/Mexico_City
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     networks:
       red_estudio:
         ipv4_address: 192.168.100.2
@@ -24,10 +33,14 @@ services:
     ports:
       - "8081:80"
     restart: unless-stopped
-    volumes:
-      - ./web-data:/usr/share/nginx/html:ro # <-- Cambio: Ahora monta la carpeta completa
     networks:
       - red_estudio
+    environment:
+      - TZ=America/Mexico_City # Define la zona horaria de Querétaro
+    volumes:
+      - ./web-data:/usr/share/nginx/html:ro
+      - /etc/localtime:/etc/localtime:ro # Sincroniza el reloj del host con el contenedor
+      - /etc/timezone:/etc/timezone:ro # Sincroniza la definición de la zona
 
   oracle_11g:
     build:
@@ -53,8 +66,11 @@ services:
       - PASV_ADDRESS=192.168.75.131
       - PASV_MIN_PORT=21100
       - PASV_MAX_PORT=21110
+      - TZ=America/Mexico_City
     volumes:
       - ./web-data:/home/vsftpd/root # <-- NUEVO: El FTP escribe en la misma carpeta web
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
 
   pc1_cliente:
     build: ./ubuntu-client
