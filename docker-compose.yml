@@ -106,22 +106,22 @@ services:
     ports:
       - "2223:22"
 
-wireshark:
-  image: lscr.io/linuxserver/wireshark:latest
-  container_name: wireshark_web
-  cap_add:
-    - NET_ADMIN
-    - NET_RAW
-  ports:
-    - "3000:3000"
-    - "3001:3001"
-  networks:
-    - red_estudio
-  environment:
-    - PUID=1000
-    - PGID=1000
-    - TZ=America/Mexico_City
-  restart: unless-stopped
+  wireshark:
+    image: lscr.io/linuxserver/wireshark:latest
+    container_name: wireshark_web
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    networks:
+      - red_estudio
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Mexico_City
+    restart: unless-stopped
 
 networks:
   red_estudio:
