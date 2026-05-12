@@ -67,6 +67,7 @@ services:
       - PASV_MIN_PORT=21100
       - PASV_MAX_PORT=21110
       - TZ=America/Mexico_City
+      - LOG_STDOUT=1 #
     volumes:
       - ./web-data:/home/vsftpd/root # <-- NUEVO: El FTP escribe en la misma carpeta web
       - /etc/localtime:/etc/localtime:ro
