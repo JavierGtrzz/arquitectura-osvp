@@ -68,6 +68,7 @@ services:
       - PASV_MAX_PORT=21110
       - TZ=America/Mexico_City
       - LOG_STDOUT=1 #
+      - FTP_BANNER=ADVERTENCIA: Sistema de uso exclusivo para personal autorizado de la empresa. El acceso no autorizado sera penalizado.
     volumes:
       - ./web-data:/home/vsftpd/root # <-- NUEVO: El FTP escribe en la misma carpeta web
       - /etc/localtime:/etc/localtime:ro
