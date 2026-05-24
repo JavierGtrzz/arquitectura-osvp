@@ -96,7 +96,6 @@ services:
   pc01_ssh:
     build: ./ssh-server
     container_name: pc01
-    command: sleep infinity
     ports:
       - "2222:22"
 
