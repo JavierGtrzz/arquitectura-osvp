@@ -39,8 +39,14 @@ services:
       - TZ=America/Mexico_City # Define la zona horaria de Querétaro
     volumes:
       - ./web-data:/usr/share/nginx/html:ro
+      - ./nginx-config/default.conf:/etc/nginx/conf.d/default.conf:ro
       - /etc/localtime:/etc/localtime:ro # Sincroniza el reloj del host con el contenedor
       - /etc/timezone:/etc/timezone:ro # Sincroniza la definición de la zona
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
 
   oracle_11g:
     build:
