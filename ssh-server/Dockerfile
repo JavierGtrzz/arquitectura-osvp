@@ -6,8 +6,8 @@ RUN useradd -m -s /bin/bash auditor
 RUN useradd -m -s /bin/bash admin_red
 
 # Política 2: Asignar contraseñas complejas (Usamos chpasswd correctamente)
-RUN echo 'auditor:Aud1t0r_2026!' | chpasswd
-RUN echo 'admin_red:Adm1n$R3d_Secure' | chpasswd
+RUN echo 'auditor:#Sistemas01' | chpasswd
+RUN echo 'admin_red:#Sistemas01' | chpasswd
 
 # Evitar acceso root directo
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
