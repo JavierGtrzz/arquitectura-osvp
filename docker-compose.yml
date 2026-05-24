@@ -94,9 +94,8 @@ services:
       - red_estudio
 
   pc01_ssh:
-    image: ubuntu:latest
+    build: ./ssh-server
     container_name: pc01
-    command: sleep infinity
     ports:
       - "2222:22"
 
